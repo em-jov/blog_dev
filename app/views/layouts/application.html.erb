@@ -11,6 +11,12 @@
   </head>
 
   <body>
+    <% if logged_in? %>
+      <%= link_to 'Logout', logout_path, data: { turbo_method: :delete } %>
+    <% else %>
+      <%= link_to 'Login with Google', '/auth/google_oauth2' %>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

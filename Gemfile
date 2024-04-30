@@ -65,3 +65,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+
+gem 'dotenv', groups: [:development, :test]

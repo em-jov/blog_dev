@@ -7,3 +7,7 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+ENV['WHITELIST_EMAILS'].split(',').each do |email|
+  User.find_or_create_by(email: email)
+end
