@@ -6,5 +6,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "posts#index"
+
+  get '/auth/:provider/callback', to: 'sessions#create'
+  match 'auth/failure', to: 'sessions#failure', via: [:get, :post]
+
+  delete '/logout', to: 'sessions#destroy'
+
 end
