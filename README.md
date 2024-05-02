@@ -1,5 +1,5 @@
-# emina.dev
-> personal website / blog 
+# blog_dev
+> .. 
 
 ### Overview
 
@@ -21,11 +21,11 @@
 ### Setup
 1. Clone this repository to your local machine:
     ```
-    git clone https://github.com/em-jov/emina_dev.git
+    git clone https://github.com/em-jov/blog_dev.git
     ```
 2. Navigate to the project directory:
     ```
-    cd emina_dev
+    cd blog_dev
     ```
 3. Install dependencies using Bundler:
     ```
