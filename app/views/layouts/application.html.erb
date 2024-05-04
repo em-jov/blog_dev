@@ -11,6 +11,12 @@
   </head>
 
   <body>
+    <div id="flash">
+      <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %>
+    </div>
+    <%= link_to "Homepage", root_path %><br>
     <% if logged_in? %>
       <%= link_to 'Logout', logout_path, data: { turbo_method: :delete } %>
     <% else %>

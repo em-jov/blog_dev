@@ -1,0 +1,21 @@
+<h2><%= @post.title %></h2>
+<h5><%= @post.slug %></h5>
+<textarea><%= @post.short_description %></textarea><br>
+<textarea><%= @post.content %></textarea><br>
+<p>Finished: <%= @post.draft ? "No" : "Yes" %></p>
+<p>Published: <%= @post.private ? "No" : "Yes" %></p>
+<%= link_to 'Edit', edit_post_path(id: @post.id) %>
+|
+<% if @post.draft %>
+  <%= link_to "Mark as completed", draft_post_path(id: @post.id) %>
+<% else %>
+  <%= link_to "Mark as draft", draft_post_path(id: @post.id) %> 
+<% end %>
+|
+<% if @post.private %>
+  <%= link_to "Publish", private_post_path(id: @post.id) %>
+<% else %>
+  <%= link_to "Hide", private_post_path(id: @post.id) %> 
+<% end %>
+
+

@@ -1,0 +1,25 @@
+<div>
+  <h1>Edit post</h1>
+
+    <%= form_with(model: @post) do |form| %>
+      <div>
+        <%= form.label :title, "Title:" %>
+        <%= form.text_field :title %>
+      </div>
+      <div>
+        <%= form.label :slug, "Slug:" %>
+        <%= form.text_field :slug %>
+      </div>
+      <div>
+        <%= form.label :short_description, "Short description:" %><br>
+        <%= form.text_area :short_description %>
+      </div>
+      <div>
+        <%= form.label :content, "Content:" %><br>
+        <%= form.text_area :content %>
+      </div>
+      <div>
+        <%= form.submit  %>
+      </div>
+    <% end %>
+</div>
