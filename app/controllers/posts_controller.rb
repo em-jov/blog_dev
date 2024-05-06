@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :find_post, only: %i[show edit draft private update]
+  before_action :find_post, only: %i[show edit draft private update destroy]
   def index
     @posts = Post.all
   end
@@ -12,7 +12,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.create(posts_params)
-    redirect_to(posts_path, notice: 'Post saved as draft.') and return if @post.save
+    redirect_to(post_path(slug: @post.slug), notice: 'Post saved as draft.') and return if @post.save
 
     render :new, status: :unprocessable_entity
   end
@@ -22,19 +22,25 @@ class PostsController < ApplicationController
   def draft
     @post.toggle!(:draft)
 
-    redirect_to post_path(id: @post.id)
+    redirect_to post_path(slug: @post.slug)
   end
 
   def private
     @post.toggle!(:private)
 
-    redirect_to post_path(id: @post.id)
+    redirect_to post_path(slug: @post.slug)
   end
 
   def update
-    redirect_to(post_path(id: @post.id), notice: 'Post updated.') and return if @post.update(posts_params)
+    redirect_to(post_path(slug: @post.slug), notice: 'Post updated.') and return if @post.update(posts_params)
 
     render :new, status: :unprocessable_entity
+  end
+
+  def destroy
+    @post.destroy
+    flash[:notice] = 'Post deleted.'
+    redirect_to posts_path
   end
 
   private
@@ -44,7 +50,7 @@ class PostsController < ApplicationController
   end
 
   def find_post
-    @post = Post.find(params[:id])
+    @post = Post.find_by(slug: params[:slug])
     return if @post
 
     flash[:alert] = "Invalid Post Address. This post cannot be found."
