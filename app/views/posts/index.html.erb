@@ -1,11 +1,15 @@
-<h1>Posts ...</h1>
+<h1>blog dev</h1>
 
 <%= link_to 'Create new post', new_post_path %>
 
 <% @posts.each do |post| %>
-  <h2><%= post.title %></h2>
-  <h5><%= post.slug %></h5>
-  <textarea><%= post.short_description %></textarea><br>
-  <%= link_to 'Read more', post_path(slug: post.slug) %>
-  <br>----------------------------------
+  <div>
+    <h2><%= post.title %></h2>
+    <i><%= post.short_description %></i><br><br>
+    <%= link_to 'Read more', post_path(slug: post.slug) %>
+    <p><%= post&.published_at&.strftime('%b %d, %Y') %></p>
+    <p>Finished: <%= post.draft ? "No" : "Yes" %></p>
+    <p>Published: <%= post.private ? "No" : "Yes" %></p>
+    <br>
+  </div>
 <% end %>

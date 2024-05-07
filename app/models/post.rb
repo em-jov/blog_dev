@@ -6,8 +6,8 @@ class Post < ApplicationRecord
     slug
   end
 
-  validates :title, presence: true, uniqueness: true
-  validates :slug, uniqueness: true
+  validates :title, :slug, presence: true, uniqueness: true
+  validates :short_description, presence: true
   
   private
 

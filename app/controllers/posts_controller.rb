@@ -27,6 +27,7 @@ class PostsController < ApplicationController
 
   def publish
     @post.toggle!(:private)
+    @post.update(published_at: Time.now) if !@post.private
 
     redirect_to post_path(slug: @post.slug)
   end
@@ -34,7 +35,7 @@ class PostsController < ApplicationController
   def update
     redirect_to(post_path(slug: @post.slug), notice: 'Post updated.') and return if @post.update(posts_params)
 
-    render :new, status: :unprocessable_entity
+    render :edit, status: :unprocessable_entity
   end
 
   def destroy

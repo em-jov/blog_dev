@@ -15,3 +15,7 @@
  */
 
  @import 'actiontext';
+
+ #error_explanation{
+  color: red;
+ }

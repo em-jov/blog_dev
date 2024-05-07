@@ -1,34 +1,8 @@
 <div>
   <h1>Create new post</h1>
+  <%= render partial: 'errors' %>
 
-  <% if @post.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
-      <ul>
-        <% @post.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
+  <%= form_with(model: @post) do |form| %>
+  <%= render partial: 'form', locals: { form: form } %>
   <% end %>
-
-
-    <%= form_with(model: @post) do |form| %>
-      <div>
-        <%= form.label :title, "Title:" %>
-        <%= form.text_field :title %>
-      </div>
-      <div>
-        <%= form.label :short_description, "Short description:" %><br>
-        <%= form.text_area :short_description %>
-      </div>
-      <div>
-        <%= form.label :content, "Content:" %><br>
-        <%= form.rich_text_area :content %>
-      </div>
-      <div>
-        <%= form.submit  %>
-      </div>
-    <% end %>
 </div>

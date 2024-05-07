@@ -1,9 +1,10 @@
 <h2><%= @post.title %></h2>
-<textarea><%= @post.short_description %></textarea><br>
+<i><%= @post.short_description %></i><br><br>
 <%= @post.content %><br>
 
 <p>Finished: <%= @post.draft ? "No" : "Yes" %></p>
 <p>Published: <%= @post.private ? "No" : "Yes" %></p>
+
 <%= link_to 'Edit', edit_post_path(slug: @post.slug) %>
 |
 <%= link_to t(:delete), post_path(slug: @post.slug),
@@ -23,7 +24,7 @@
 <% end %>
 
 <% if !@post.private && !@post.draft %>
-  <%= link_to "Hide", publish_post_path(slug: @post.slug), data: { turbo_method: :patch } %> 
+  <%= link_to "Mark as private", publish_post_path(slug: @post.slug), data: { turbo_method: :patch } %> 
 <% end %>
 
 
