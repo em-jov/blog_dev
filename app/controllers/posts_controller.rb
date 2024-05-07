@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
-  before_action :find_post, only: %i[show edit draft private update destroy]
+  before_action :find_post, only: %i[show edit draft publish update destroy]
   def index
-    @posts = Post.all
+    @posts = Post.order(created_at: :desc)
   end
 
   def new
@@ -11,7 +11,7 @@ class PostsController < ApplicationController
   def show; end
 
   def create
-    @post = Post.create(posts_params)
+    @post = Post.new(posts_params)
     redirect_to(post_path(slug: @post.slug), notice: 'Post saved as draft.') and return if @post.save
 
     render :new, status: :unprocessable_entity
@@ -25,7 +25,7 @@ class PostsController < ApplicationController
     redirect_to post_path(slug: @post.slug)
   end
 
-  def private
+  def publish
     @post.toggle!(:private)
 
     redirect_to post_path(slug: @post.slug)

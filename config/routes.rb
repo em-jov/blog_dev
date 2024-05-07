@@ -13,7 +13,13 @@ Rails.application.routes.draw do
 
   delete '/logout', to: 'sessions#destroy'
 
-  resources :posts, param: :slug
-  get '/posts/:slug/publish', to: "posts#private", as: 'private_post'
-  get '/posts/:slug/draft', to: "posts#draft", as: 'draft_post'
+  resources :posts, param: :slug do
+    member do
+      patch :publish
+      patch :draft
+    end
+    # patch '/posts/:slug/publish', to: "posts#private", as: 'private_post'
+    # patch '/posts/:slug/draft', to: "posts#draft", as: 'draft_post'
+
+  end
 end
