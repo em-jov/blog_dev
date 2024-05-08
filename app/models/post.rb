@@ -12,6 +12,8 @@ class Post < ApplicationRecord
   private
 
   def create_slug
+    return if self.title.nil?
+    
     slug = self.title.parameterize
     if Post.find_by(slug: slug)
       self.slug = slug + "-" + SecureRandom.hex(6)

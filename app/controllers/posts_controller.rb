@@ -8,8 +8,6 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
-  def show; end
-
   def create
     @post = Post.new(posts_params)
     redirect_to(post_path(slug: @post.slug), notice: 'Post saved as draft.') and return if @post.save
@@ -17,20 +15,9 @@ class PostsController < ApplicationController
     render :new, status: :unprocessable_entity
   end
 
+  def show; end
+
   def edit; end
-
-  def draft
-    @post.toggle!(:draft)
-
-    redirect_to post_path(slug: @post.slug)
-  end
-
-  def publish
-    @post.toggle!(:private)
-    @post.update(published_at: Time.now) if !@post.private
-
-    redirect_to post_path(slug: @post.slug)
-  end
 
   def update
     redirect_to(post_path(slug: @post.slug), notice: 'Post updated.') and return if @post.update(posts_params)
@@ -44,10 +31,23 @@ class PostsController < ApplicationController
     redirect_to posts_path
   end
 
+  def draft
+    @post.toggle!(:draft)
+
+    redirect_to post_path(slug: @post.slug)
+  end
+
+  def publish
+    @post.toggle!(:is_private)
+    @post.update(published_at: Time.now) if !@post.is_private
+
+    redirect_to post_path(slug: @post.slug)
+  end
+
   private
 
   def posts_params
-    params.require(:post).permit(:title, :content, :slug, :private, :draft, :short_description)
+    params.require(:post).permit(:title, :content, :slug, :is_private, :draft, :short_description)
   end
 
   def find_post

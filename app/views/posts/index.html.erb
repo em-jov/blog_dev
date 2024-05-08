@@ -9,7 +9,7 @@
     <%= link_to 'Read more', post_path(slug: post.slug) %>
     <p><%= post&.published_at&.strftime('%b %d, %Y') %></p>
     <p>Finished: <%= post.draft ? "No" : "Yes" %></p>
-    <p>Published: <%= post.private ? "No" : "Yes" %></p>
+    <p>Published: <%= post.is_private ? "No" : "Yes" %></p>
     <br>
   </div>
 <% end %>

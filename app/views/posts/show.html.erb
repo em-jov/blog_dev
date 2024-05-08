@@ -3,27 +3,27 @@
 <%= @post.content %><br>
 
 <p>Finished: <%= @post.draft ? "No" : "Yes" %></p>
-<p>Published: <%= @post.private ? "No" : "Yes" %></p>
+<p>Published: <%= @post.is_private ? "No" : "Yes" %></p>
 
 <%= link_to 'Edit', edit_post_path(slug: @post.slug) %>
 |
 <%= link_to t(:delete), post_path(slug: @post.slug),
                       class: "delete-button", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 <br><br>
-<% if @post.draft && @post.private %>
+<% if @post.draft && @post.is_private %>
   <%= link_to "Mark as completed", draft_post_path(slug: @post.slug), data: { turbo_method: :patch } %>
 <% end %>
 
-<% if !@post.draft && @post.private %>
+<% if !@post.draft && @post.is_private %>
   <%= link_to "Mark as draft", draft_post_path(slug: @post.slug), data: { turbo_method: :patch } %> 
 <% end %>
 
-<% if @post.private && !@post.draft %>
+<% if @post.is_private && !@post.draft %>
 |
   <%= link_to "Publish", publish_post_path(slug: @post.slug), data: { turbo_method: :patch } %>
 <% end %>
 
-<% if !@post.private && !@post.draft %>
+<% if !@post.is_private && !@post.draft %>
   <%= link_to "Mark as private", publish_post_path(slug: @post.slug), data: { turbo_method: :patch } %> 
 <% end %>
 
