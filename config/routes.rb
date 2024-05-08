@@ -13,7 +13,8 @@ Rails.application.routes.draw do
 
   delete '/logout', to: 'sessions#destroy'
 
-  resources :posts, param: :slug do
+  resources :posts, only: %i[edit update]
+  resources :posts, param: :slug, except: %i[edit update] do
     member do
       patch :publish
       patch :draft

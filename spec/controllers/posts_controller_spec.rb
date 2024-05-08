@@ -28,7 +28,7 @@ RSpec.describe PostsController do
     it 'redirects to posts page' do
       put :create, params: { post: { title: post_build.title, short_description: post_build.short_description } }
       new_post = Post.last
-      expect(response).to redirect_to post_path(slug: new_post.slug)
+      expect(response).to redirect_to post_path(new_post)
     end
 
     it 'fails to create new post' do
@@ -46,20 +46,20 @@ RSpec.describe PostsController do
 
   describe '#edit' do
     it 'renders form' do
-      get :edit, params: { slug: post.slug }
+      get :edit, params: { id: post.id }
       expect(response).to have_http_status(:ok)
     end
   end
 
   describe '#update' do
     it 'updates a post' do
-      put :update, params: { slug: post.slug, post: { title: "new-title" } }
+      put :update, params: { id: post.id, post: { title: "new-title" } }
       post.reload
       expect(post.title).to eq("new-title")
     end
 
     it 'fails to update a post' do
-      put :update, params: { slug: post.slug, post: { slug: nil } }
+      put :update, params: { id: post.id, post: { slug: nil } }
       post.reload
       expect(post.slug).to_not be_nil
     end
