@@ -1,0 +1,8 @@
+<div>
+  <h1>Create new post</h1>
+  <%= render partial: 'errors' %>
+
+  <%= form_with(model: @post) do |form| %>
+  <%= render partial: 'form', locals: { form: form } %>
+  <% end %>
+</div>

@@ -1,0 +1,12 @@
+<div>
+  <h1>Edit post</h1>
+  <%= render partial: 'errors' %>
+  
+  <%= form_with model: @post, url: post_path(id: @post.id) do |form| %>
+    <div>
+      <%= form.label :slug, "Slug:" %>
+      <%= form.text_field :slug %>
+    </div>
+    <%= render partial: 'form', locals: { form: form } %>
+  <% end %>
+</div>

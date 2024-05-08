@@ -7,7 +7,10 @@
 
 ### Features
 
-..
+- Post features
+    - Visibility: Control who can view posts by setting them as private or public.
+    - Status: Manage post publication with draft or completed status.
+    - Slug handling: Automatic creation of slugs based on titles, with the option for manual updates.
 
 ### Prerequisites
 
