@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :find_post, only: %i[show edit draft publish update destroy]
   def index
-    @posts = Post.order(created_at: :desc)
+    @posts = policy_scope(Post).order(created_at: :desc)
   end
 
   def new
@@ -10,6 +10,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(posts_params)
+    authorize @post
     redirect_to({ action: :show, slug: @post.slug }, notice: 'Post saved as draft.') and return if @post.save
 
     render :new, status: :unprocessable_entity

@@ -1,5 +1,7 @@
 class Post < ApplicationRecord
   before_validation :create_slug, on: :create
+
+  belongs_to :user
   has_rich_text :content
   
   def to_param
