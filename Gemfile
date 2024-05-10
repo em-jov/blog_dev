@@ -71,3 +71,4 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 
 gem 'dotenv', groups: [:development, :test]
+gem "pundit", "~> 2.3"
