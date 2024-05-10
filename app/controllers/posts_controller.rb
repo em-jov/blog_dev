@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :find_post, only: %i[show edit draft publish update destroy]
+
   def index
     @posts = policy_scope(Post).order(created_at: :desc)
   end
@@ -10,7 +11,6 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(posts_params)
-    authorize @post
     redirect_to({ action: :show, slug: @post.slug }, notice: 'Post saved as draft.') and return if @post.save
 
     render :new, status: :unprocessable_entity
@@ -23,7 +23,7 @@ class PostsController < ApplicationController
   def update
     redirect_to({ action: :show, slug: @post.slug }, notice: 'Post updated.') and return if @post.update(posts_params)
 
-    render :edit, status: :unprocessable_entity
+    render :edit, status: :unprocessable_entity 
   end
 
   def destroy
@@ -53,7 +53,8 @@ class PostsController < ApplicationController
 
   def find_post
     @post = Post.find_by(slug: params[:slug]) || Post.find(params[:id])
-    
+    authorize @post
+
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.error e.message
     Rails.logger.error e.backtrace.join("\n")
