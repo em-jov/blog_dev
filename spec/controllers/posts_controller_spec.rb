@@ -1,8 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe PostsController do
-  let(:post) { Post.create(title: 'first post', short_description: 'Short desc.')}
-  let(:post_build) { Post.build(title: 'second post', short_description: 'Shorter desc.')}
+  let(:admin) { User.create(email: 'user@mail.com', role: 1)}
+  let(:post) { Post.create(title: 'first post', short_description: 'Short desc.', user_id: admin.id)}
+  let(:post_build) { Post.build(title: 'second post', short_description: 'Shorter desc.', user_id: admin.id)}
+
+  before do
+    session[:user_id] = admin.id
+  end
 
   describe '#index' do
     it 'renders page' do
