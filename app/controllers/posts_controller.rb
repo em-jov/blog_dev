@@ -10,7 +10,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(posts_params)
+    @post = Post.new(posts_params.merge(user: current_user))
     redirect_to({ action: :show, slug: @post.slug }, notice: 'Post saved as draft.') and return if @post.save
 
     render :new, status: :unprocessable_entity

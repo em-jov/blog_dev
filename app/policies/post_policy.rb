@@ -55,7 +55,7 @@ class PostPolicy < ApplicationPolicy
   end
 
   def draft?
-    user&.is_admin? || (post&.user_id == user&.id && user&.is_guest_writer?) && post.is_private
+    destroy?
   end
 
   def publish?
