@@ -11,6 +11,12 @@
     <p><%= post&.published_at&.strftime('%b %d, %Y') %></p>
     <p>Finished: <%= post.draft ? "No" : "Yes" %></p>
     <p>Published: <%= post.is_private ? "No" : "Yes" %></p>
-    <br>
+    <p>
+      Tags: 
+      <% post.tags.each do |tag| %>
+      <%= tag.name %>
+      <% end %>
+    </p>
+    <hr>
   </div>
 <% end %>

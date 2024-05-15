@@ -5,6 +5,13 @@
 <p>Finished: <%= @post.draft ? "No" : "Yes" %></p>
 <p>Published: <%= @post.is_private ? "No" : "Yes" %></p>
 
+<p>
+  Tags: 
+  <% @post.tags.each do |tag| %>
+  <%= tag.name %>
+  <% end %>
+</p>
+
 <% if policy(@post).edit? && @post.draft && @post.is_private %>
 <%= link_to 'Edit', edit_post_path(id: @post.id) %>
 |
