@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe PostsController do
-  let(:admin) { User.create(email: 'user@mail.com', role: 1)}
-  let(:post) { Post.create(title: 'first post', short_description: 'Short desc.', user_id: admin.id)}
-  let(:post_build) { Post.build(title: 'second post', short_description: 'Shorter desc.', user_id: admin.id)}
+  let(:admin) { User.create(email: 'user@mail.com', role: 1) }
+  let(:first_tag) { Tag.create(name: 'first tag') }
+  let(:second_tag) { Tag.create(name: 'second tag') }
+  let(:post) { Post.create(title: 'first post', short_description: 'Short desc.', user_id: admin.id) }
+  let(:post_build) { Post.build(title: 'second post', short_description: 'Shorter desc.', user_id: admin.id) }
 
   before do
     session[:user_id] = admin.id
@@ -25,19 +27,33 @@ RSpec.describe PostsController do
 
   describe '#create' do
     it 'creates new post' do
-      put :create, params: { post: { title: post_build.title, short_description: post_build.short_description } }
+      put :create, params: { post: { title: post_build.title, 
+                                     short_description: post_build.short_description, 
+                                     tags: 'new tag' } }
       new_post = Post.last
-      expect(new_post).to have_attributes(title: post_build.title, short_description: post_build.short_description)
+      expect(new_post).to have_attributes(title: post_build.title, 
+                                          short_description: post_build.short_description)
+      expect(new_post.tags.last).to have_attributes(name: 'new tag')
+    end
+
+    it 'does not create tag with same name' do
+      post.tags << first_tag
+      put :create, params: { post: { title: post_build.title, 
+                                     short_description: post_build.short_description, 
+                                     tags: 'first tag' } }
+      expect(Tag.all.pluck(:name)).to match_array(['first tag'])
     end
 
     it 'redirects to posts page' do
-      put :create, params: { post: { title: post_build.title, short_description: post_build.short_description } }
+      put :create, params: { post: { title: post_build.title, 
+                                     short_description: post_build.short_description } }
       new_post = Post.last
       expect(response).to redirect_to post_path(new_post)
     end
 
     it 'fails to create new post' do
-      put :create, params: { post: { title: nil, short_description: post_build.short_description } }
+      put :create, params: { post: { title: nil, 
+                                     short_description: post_build.short_description } }
       expect(Post.count).to eq(0)
     end
   end
@@ -58,9 +74,10 @@ RSpec.describe PostsController do
 
   describe '#update' do
     it 'updates a post' do
-      put :update, params: { id: post.id, post: { title: "new-title" } }
-      post.reload
-      expect(post.title).to eq("new-title")
+      post.tags << first_tag
+      post.tags << second_tag
+      put :update, params: { id: post.id, post: { tags: 'first tag, updated tag' } }
+      expect(post.tags.pluck(:name)).to match_array(['first tag', 'updated tag'])
     end
 
     it 'fails to update a post' do

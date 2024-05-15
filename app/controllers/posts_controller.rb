@@ -13,8 +13,9 @@ class PostsController < ApplicationController
     @post = Post.new(posts_params.merge(user: current_user))
     render :new, status: :unprocessable_entity and return unless @post.save
 
-    params[:post][:tags].split(',').map(&:strip).each do |tag|
-      @post.tags.find_or_create_by!(name: tag)
+    params[:post][:tags]&.split(',')&.map(&:strip)&.each do |tag|
+      tag_obj = Tag.find_or_create_by!(name: tag)
+      @post.tags << tag_obj unless @post.tags.exists?(tag_obj.id)
     end
     redirect_to({ action: :show, slug: @post.slug }, notice: 'Post saved as draft.')
   end
@@ -26,10 +27,10 @@ class PostsController < ApplicationController
   def update
     render :edit, status: :unprocessable_entity and return unless @post.update(posts_params)
 
-    updated_tags = params[:post][:tags].split(',').map(&:strip)
+    updated_tags = params[:post][:tags]&.split(',')&.map(&:strip)
     removed_tags = @post.tags.where('name not in (?)', updated_tags)
     @post.tags.delete(*removed_tags)
-    params[:post][:tags].split(',').map(&:strip).each do |tag|
+    params[:post][:tags]&.split(',')&.map(&:strip)&.each do |tag|
       tag_obj = Tag.find_or_create_by!(name: tag)
       @post.tags << tag_obj unless @post.tags.exists?(tag_obj.id)
     end
