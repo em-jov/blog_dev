@@ -14,7 +14,7 @@
     <p>
       Tags: 
       <% post.tags.each do |tag| %>
-      <%= tag.name %>
+      <%= link_to tag.name, tag_path(slug: tag.slug) %>
       <% end %>
     </p>
     <hr>

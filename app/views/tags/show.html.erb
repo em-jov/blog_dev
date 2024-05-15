@@ -1,0 +1,5 @@
+<% @tag.posts.each do |post| %>
+  <h2><%= post.title %></h2>
+  <i><%= post.short_description %></i><br><br>
+  <%= post.content %><br>
+<% end %>
