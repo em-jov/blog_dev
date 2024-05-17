@@ -29,6 +29,7 @@ class TagsController < ApplicationController
 
   def find_tag
     @tag = Tag.find_by(slug: params[:slug])
+    raise ActiveRecord::RecordNotFound if @tag.nil?
 
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.error e.message

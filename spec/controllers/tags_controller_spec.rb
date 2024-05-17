@@ -48,7 +48,6 @@ RSpec.describe TagsController do
     end
   end
 
-  #failing: nil problem
   describe 'before_actions' do
     it 'redirects to index with alert if tag is not found' do
       delete :destroy, params: { slug: "" }
