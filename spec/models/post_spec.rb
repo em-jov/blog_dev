@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  let(:admin) { User.create(email: 'user@mail.com', role: 1)}
+  let(:admin) { User.create(email: 'user@mail.com', role: 1) }
 
   it "is valid with valid attributes" do
     expect(Post.new(title: 'first post', short_description: 'Short desc.', user_id: admin.id)).to be_valid
