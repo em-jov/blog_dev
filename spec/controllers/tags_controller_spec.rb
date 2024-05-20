@@ -5,6 +5,10 @@ RSpec.describe TagsController do
   let(:post) { Post.create(title: 'first post', short_description: 'Short desc.', user_id: admin.id) }
   let(:tag) { Tag.create(name: 'first tag') }
 
+  before do
+    session[:user_id] = admin.id
+  end
+
   describe '#index' do
     it 'renders page' do
       get :index
