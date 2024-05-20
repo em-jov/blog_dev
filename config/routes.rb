@@ -19,8 +19,7 @@ Rails.application.routes.draw do
       patch :publish
       patch :draft
     end
-    # patch '/posts/:slug/publish', to: "posts#private", as: 'private_post'
-    # patch '/posts/:slug/draft', to: "posts#draft", as: 'draft_post'
-
   end
+
+  resources :tags, param: :slug
 end

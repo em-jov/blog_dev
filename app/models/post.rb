@@ -1,9 +1,11 @@
 class Post < ApplicationRecord
+  belongs_to :user
+  has_and_belongs_to_many :tags
+  
+  has_rich_text :content
+
   before_validation :create_slug, on: :create
 
-  belongs_to :user
-  has_rich_text :content
-  
   def to_param
     slug
   end

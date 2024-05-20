@@ -11,9 +11,13 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(posts_params.merge(user: current_user))
-    redirect_to({ action: :show, slug: @post.slug }, notice: 'Post saved as draft.') and return if @post.save
+    render :new, status: :unprocessable_entity and return unless @post.save
 
-    render :new, status: :unprocessable_entity
+    params[:post][:tags]&.split(',')&.map(&:strip)&.each do |tag|
+      tag_obj = Tag.find_or_create_by!(name: tag)
+      @post.tags << tag_obj unless @post.tags.exists?(tag_obj.id)
+    end
+    redirect_to({ action: :show, slug: @post.slug }, notice: 'Post saved as draft.')
   end
 
   def show; end
@@ -21,9 +25,16 @@ class PostsController < ApplicationController
   def edit; end
 
   def update
-    redirect_to({ action: :show, slug: @post.slug }, notice: 'Post updated.') and return if @post.update(posts_params)
+    render :edit, status: :unprocessable_entity and return unless @post.update(posts_params)
 
-    render :edit, status: :unprocessable_entity 
+    updated_tags = params[:post][:tags]&.split(',')&.map(&:strip)
+    removed_tags = @post.tags.where('name not in (?)', updated_tags)
+    @post.tags.delete(*removed_tags)
+    params[:post][:tags]&.split(',')&.map(&:strip)&.each do |tag|
+      tag_obj = Tag.find_or_create_by!(name: tag)
+      @post.tags << tag_obj unless @post.tags.exists?(tag_obj.id)
+    end
+    redirect_to({ action: :show, slug: @post.slug }, notice: 'Post updated.') 
   end
 
   def destroy

@@ -5,14 +5,20 @@
 <p>Finished: <%= @post.draft ? "No" : "Yes" %></p>
 <p>Published: <%= @post.is_private ? "No" : "Yes" %></p>
 
+<p>
+  Tags: 
+  <% @post.tags.each do |tag| %>
+  <%= link_to tag.name, tag_path(slug: tag.slug) %>
+  <% end %>
+</p>
+
 <% if policy(@post).edit? && @post.draft && @post.is_private %>
 <%= link_to 'Edit', edit_post_path(id: @post.id) %>
 |
 <% end %>
 
 <% if policy(@post).destroy? && @post.is_private %>
-<%= link_to t(:delete), post_path(@post),
-                      class: "delete-button", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+<%= link_to "Delete", post_path(@post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 <% end %>
 
 <br><br>

@@ -1,0 +1,17 @@
+<div>
+  <h1>Edit tag</h1>
+
+  <%= form_with model: @tag, url: tag_path(id: @tag.id) do |form| %>
+    <div>
+      <%= form.label :name, "Name:" %>
+      <%= form.text_field :name %>
+    </div>
+    <div>
+      <%= form.label :slug, "Slug:" %>
+      <%= form.text_field :slug %>
+    </div>
+    <div>
+      <%= form.submit  %>
+    </div>
+  <% end %>
+</div>

@@ -17,6 +17,8 @@
       <% end %>
     </div>
     <%= link_to "Homepage", root_path %><br>
+    <%= link_to "Tags", tags_path %><br>
+
     <% if logged_in? %>
       <%= link_to 'Logout', logout_path, data: { turbo_method: :delete } %>
     <% else %>

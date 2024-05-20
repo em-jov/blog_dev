@@ -11,5 +11,9 @@
   <%= form.rich_text_area :content %>
 </div>
 <div>
+  <%= form.label :tags, "Tags:" %><br>
+  <%= form.text_area :tags, value: @post.tags.map(&:name).join(', ') %>
+</div>
+<div>
   <%= form.submit  %>
 </div>

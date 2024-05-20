@@ -1,0 +1,13 @@
+<% if policy(@tag).edit? %>
+  <p><%= link_to "Edit", edit_tag_path(id: @tag.id) %></p>
+<% end %>
+
+<% if policy(@tag).destroy? %>
+  <%= link_to "Delete", tag_path(slug: @tag.slug), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+<% end %>
+
+<% @tag.posts.each do |post| %>
+  <h2><%= post.title %></h2>
+  <i><%= post.short_description %></i><br><br>
+  <%= post.content %><br>
+<% end %>
