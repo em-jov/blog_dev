@@ -46,7 +46,6 @@ RSpec.describe TagsController do
 
   describe '#destroy' do
     it 'deletes a tag' do
-      pp tag
       delete :destroy, params: { slug: tag.slug }
       expect(Tag.count).to eq(0)
     end

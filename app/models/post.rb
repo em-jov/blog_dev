@@ -12,6 +12,10 @@ class Post < ApplicationRecord
 
   validates :title, :slug, presence: true, uniqueness: true
   validates :short_description, presence: true
+
+  def is_public?
+    !self.is_private?
+  end
   
   private
 

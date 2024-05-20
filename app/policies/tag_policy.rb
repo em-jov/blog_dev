@@ -7,7 +7,7 @@ class TagPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    tag.posts.map(&:is_public?)
   end
 
   def edit?

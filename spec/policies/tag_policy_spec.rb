@@ -5,13 +5,34 @@ RSpec.describe TagPolicy, type: :policy do
   let(:guest_writer) { User.create(email: 'guest_writer@mail.com', role: :guest_writer) }
   let(:user) { User.create(email: 'user@mail.com', role: :user) }
   let(:first_post) { Post.create(title: 'first post', short_description: 'short desc', user_id: guest_writer.id)}
-  let(:first_tag) { first_post.tags.create(name: 'first tag') }
+  let(:second_post) { Post.create(title: 'second post', short_description: 'short desc', is_private: false, user_id: guest_writer.id)}
+  let(:first_tag) { Tag.create(name: 'first tag') }
 
   subject { described_class }
 
   permissions :show? do
-    it 'grants all users access to tags' do 
-      expect(subject).to permit(user, first_tag)
+    context 'when there are public posts associated with the tag' do
+      let(:policy) { TagPolicy.new(user, first_tag) }
+
+      before do
+        second_post.tags << first_tag
+      end
+
+      it 'allows access' do
+        expect(policy.show?).to eq([true])
+      end
+    end
+
+    context 'when there are no public posts associated with the tag' do
+      let(:policy) { TagPolicy.new(user, first_tag) }
+
+      before do
+        first_post.tags << first_tag
+      end
+
+      it 'denies access' do
+        expect(policy.show?).to eq([false])
+      end
     end
   end
 
