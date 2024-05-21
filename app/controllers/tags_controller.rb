@@ -5,7 +5,9 @@ class TagsController < ApplicationController
     @tags = Tag.all
   end
 
-  def show; end
+  def show
+   @posts = policy_scope(@tag).order(created_at: :desc )
+  end
 
   def edit; end
 

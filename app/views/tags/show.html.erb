@@ -6,8 +6,13 @@
   <%= link_to "Delete", tag_path(slug: @tag.slug), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 <% end %>
 
-<% @tag.posts.each do |post| %>
+<% @posts.each do |post| %>
+  <p>Tags:</p>
+  <% post.tags.each do |tag| %>
+    <u><%= tag.name %></u>
+  <% end %> 
   <h2><%= post.title %></h2>
   <i><%= post.short_description %></i><br><br>
   <%= post.content %><br>
+
 <% end %>
