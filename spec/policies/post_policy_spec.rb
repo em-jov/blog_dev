@@ -33,7 +33,6 @@ RSpec.describe PostPolicy, type: :policy do
     it 'grants all users access to published posts only' do
       expect(scope_user.to_a).to match_array([third_post])
     end
-    
   end
 
   permissions :show? do

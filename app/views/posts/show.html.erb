@@ -39,5 +39,9 @@
   <%= link_to "Mark as private", publish_post_path(slug: @post.slug), data: { turbo_method: :patch } %> 
 <% end %>
 
+<br><br>
+<%= link_to 'comments#index', post_comments_path(post_slug: @post.slug) %>
+
+<%= render partial: "comments/form", locals: {comment: Comment.new} %>
 
 
