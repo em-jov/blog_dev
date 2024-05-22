@@ -1,6 +1,10 @@
 class CommentsController < ApplicationController
   before_action :find_post
 
+  def index
+    @post.comments.order(created_at: :desc)
+  end
+
   def new
     @comment = @post.comments.new
   end
